@@ -1,5 +1,4 @@
 const controller = require("../controllers/system.controller");
-const { authJwt } = require("../middleware");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -10,6 +9,7 @@ module.exports = function (app) {
     next();
   });
 
-  // Semester
   app.post("/api/system/find/formula", controller.find_formula);
+
+  app.put("/api/system/save/formula", controller.save_formula);
 };

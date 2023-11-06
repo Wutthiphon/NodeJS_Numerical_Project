@@ -10,6 +10,7 @@ datasource db {
 model formula {
   id             Int              @id @default(autoincrement())
   formula        String?          @db.VarChar(255)
+  mode           String?          @db.VarChar(255)
   formula_input  formula_input[]
   formula_result formula_result[]
 
@@ -28,12 +29,11 @@ model formula_input {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model formula_result {
-  id           Int      @id @default(autoincrement())
-  formula_id   Int?
-  result_order Int?
-  result_type  String?  @db.VarChar(255)
-  value        Int?
-  formula      formula? @relation(fields: [formula_id], references: [id], onDelete: Cascade, map: "formula_result_ibfk_1")
+  id          Int      @id @default(autoincrement())
+  formula_id  Int?
+  result_type String?  @db.VarChar(255)
+  value       String?  @db.LongText
+  formula     formula? @relation(fields: [formula_id], references: [id], onDelete: Cascade, map: "formula_result_ibfk_1")
 
   @@index([formula_id], map: "formula_result_ibfk_1")
 }

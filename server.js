@@ -26,6 +26,12 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/api/system/status", (req, res) => {
+  res.status(200).send({
+    status: true,
+  });
+});
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
