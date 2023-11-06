@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model formula {
+  id             Int              @id @default(autoincrement())
+  formula        String?          @db.VarChar(255)
+  formula_input  formula_input[]
+  formula_result formula_result[]
+
+  @@index([formula], map: "formula")
+}
+
+model formula_input {
+  id         Int      @id @default(autoincrement())
+  formula_id Int?
+  input_word String?  @db.VarChar(255)
+  value      Int?
+  formula    formula? @relation(fields: [formula_id], references: [id], onDelete: Cascade, map: "formula_input_ibfk_1")
+
+  @@index([formula_id], map: "formula_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model formula_result {
+  id           Int      @id @default(autoincrement())
+  formula_id   Int?
+  result_order Int?
+  result_type  String?  @db.VarChar(255)
+  value        Int?
+  formula      formula? @relation(fields: [formula_id], references: [id], onDelete: Cascade, map: "formula_result_ibfk_1")
+
+  @@index([formula_id], map: "formula_result_ibfk_1")
+}
